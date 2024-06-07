@@ -1,5 +1,6 @@
 require 'database_validations/lib/adapters/base_adapter'
 require 'database_validations/lib/adapters/sqlite_adapter'
+require 'database_validations/lib/adapters/postgis_adapter'
 require 'database_validations/lib/adapters/postgresql_adapter'
 require 'database_validations/lib/adapters/mysql_adapter'
 
@@ -17,6 +18,7 @@ module DatabaseValidations
       case database
       when SqliteAdapter::ADAPTER then SqliteAdapter
       when PostgresqlAdapter::ADAPTER then PostgresqlAdapter
+      when PostgisAdapter::ADAPTER then PostgisAdapter
       when MysqlAdapter::ADAPTER then MysqlAdapter
       else
         raise Errors::UnknownDatabase, database

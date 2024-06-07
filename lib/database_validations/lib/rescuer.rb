@@ -18,7 +18,11 @@ module DatabaseValidations
       adapter = Adapters.factory(instance.class)
 
       keys = key_types.map do |key_generator, error_processor|
-        KeyGenerator.public_send(key_generator, adapter.public_send(error_processor, error.message))
+        is_postgis_adapter = adapter::ADAPTER == DatabaseValidations::Adapters::PostgisAdapter::ADAPTER
+
+        error_message = is_postgis_adapter ? error.cause.error : error.message
+
+        KeyGenerator.public_send(key_generator, adapter.public_send(error_processor, error_message))
       end
 
       keys.each do |key|
